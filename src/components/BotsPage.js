@@ -39,11 +39,16 @@ console.log(exist)
   }
 
 }
+const HandleRemoveBot=(botItem)=>{
+  setBotArmy(botArmy.filter((item)=> item.id!==botItem.id))
+  console.log("delete")
+  
+}
 
   return (
     <div>
-      <YourBotArmy botArmy={botArmy} HandleAddCard={HandleAddCard}/>
-      <BotCollection bots={bots} HandleAddCard={HandleAddCard} />
+      <YourBotArmy botArmy={botArmy} HandleAddCard={HandleAddCard} HandleRemoveBot={HandleRemoveBot}/>
+      <BotCollection bots={bots} HandleAddCard={HandleAddCard}  HandleRemoveBot={HandleRemoveBot}/>
     </div>
   )
 }

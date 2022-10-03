@@ -9,7 +9,7 @@ const botTypeClasses = {
   Captain: "icon star",
 };
 
-function BotCard({ bot ,HandleAddCard}) {
+function BotCard({ bot ,HandleAddCard,HandleRemoveBot,botKey}) {
   
  
 
@@ -19,7 +19,7 @@ function BotCard({ bot ,HandleAddCard}) {
      
       <div
         className="ui card"
-        key={bot.id}
+        
         onClick={()=>{HandleAddCard(bot)}}
       >
         <div className="image">
@@ -52,8 +52,7 @@ function BotCard({ bot ,HandleAddCard}) {
             <div className="ui center aligned segment basic">
               <button
                 className="ui mini red button"
-                onClick={() =>
-                  console.log("add code to connect event listener")
+                onClick={() =>{HandleRemoveBot(bot)}
                 }
               >
                 x
