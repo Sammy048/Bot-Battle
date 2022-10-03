@@ -1,6 +1,6 @@
 import React from "react";
-
-function YourBotArmy() {
+import BotCard from "./BotCard";
+function YourBotArmy({HandleAddCard,botArmy}) {
   //your bot army code here...
 
   return (
@@ -8,7 +8,14 @@ function YourBotArmy() {
       <div className="ui five column grid">
         <div className="row bot-army-row">
           {/*...and here...*/}
-          Your Bot Army
+          
+          {botArmy.map((bot)=>  <BotCard bot={bot}  HandleAddCard={HandleAddCard}/>)}
+                {/* {botArmy.map((bot)=>  {return(
+                  <div key={bot.id}><img src={bot.avatar_url } alt='as'/></div>
+                )})} */}
+              
+            
+          
         </div>
       </div>
     </div>
