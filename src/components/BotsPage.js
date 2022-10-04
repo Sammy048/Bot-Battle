@@ -1,54 +1,60 @@
-import React,{useState,useEffect} from "react";
+import React, { useState , useEffect } from "react";
 import YourBotArmy from "./YourBotArmy";
 import BotCollection from "./BotCollection";
 
-
+ 
 
 function BotsPage() {
-  //start here with your code for step one
-  const[bots,setBots]=useState([])
-  const[botArmy,setBotArmy]=useState([])
   
-  useEffect(()=>{
-    const fetchAllBots=async()=>{
-      const res =await fetch('http://localhost:8002/bots')
-      const data =await res.json()
-      setBots(data)
-     console.log(data);
-    
-      }
-    fetchAllBots()},[])
 
+  const [bots, setBots] = useState([]);
+  const [myBot,setMyBot] = useState([])
 
-   
-const HandleAddCard=(botItem)=>{
-  console.log(botItem)
-const exist =botArmy.find((item)=>item.id===botItem.id)
-console.log(exist)
-  if (exist){
-    console.log(exist)
-    setBotArmy(
-      botArmy.map((item)=>item.id ===botItem.id
-      ?{...exist}:item
-    )
-    )
-  }
-  
-  else{
-    setBotArmy([...botArmy,{...botItem}])
+  useEffect(() => {
+    fetch("http://localhost:8002/bots")
+    .then(res => res.json())
+    .then(setBots)
+  },[])
+
+  function enlistBot(bot){
+    const selectedBot = myBot.find((boty)=>boty.id === bot.id)  
+    if (!selectedBot){
+     setMyBot(bots=>[...bots,bot])
+    }   
   }
 
-}
-const HandleRemoveBot=(botItem)=>{
-  setBotArmy(botArmy.filter((item)=> item.id!==botItem.id))
-  console.log("delete")
-  
-}
+  function removeBot(bot){
+    const filterRemove = myBot.filter((b)=>b.id !== bot.id)
+    setMyBot(filterRemove)
+  }
+
+  function deleteBot(bot){  
+    const filterbots = bots.filter((singlebot) => singlebot.id !==  bot.id);
+    const   deleteConfig =  {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          } 
+    }
+    const deleteFromArmy = myBot.filter((armybot)=>armybot.id !== bot.id)
+    setMyBot(deleteFromArmy)
+    fetch(`http://localhost:8002/bots/${bot.id}`,deleteConfig)
+      .then(()=>setBots(filterbots))   
+  }
 
   return (
     <div>
-      <YourBotArmy botArmy={botArmy} HandleAddCard={HandleAddCard} HandleRemoveBot={HandleRemoveBot}/>
-      <BotCollection bots={bots} HandleAddCard={HandleAddCard}  HandleRemoveBot={HandleRemoveBot}/>
+      <YourBotArmy 
+      bots={myBot}
+      removeBot ={removeBot}
+      deleteBot={deleteBot}
+      />
+
+      <BotCollection 
+      bots={bots}
+      enlistBot={enlistBot}
+      deleteBot={deleteBot}
+      />
     </div>
   )
 }
