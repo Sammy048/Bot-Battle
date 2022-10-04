@@ -1,4 +1,4 @@
-
+import React from "react";
 
 const botTypeClasses = {
   Assault: "icon military",
@@ -9,18 +9,13 @@ const botTypeClasses = {
   Captain: "icon star",
 };
 
-function BotCard({ bot ,HandleAddCard,HandleRemoveBot,botKey}) {
-  
- 
-
-
+function BotCard({ bot , clickEvent , deleteBot}) {
   return (
     <div className="ui column">
-     
       <div
         className="ui card"
-        
-        onClick={()=>{HandleAddCard(bot)}}
+        key={bot.id}
+        onClick={() => clickEvent(bot)}
       >
         <div className="image">
           <img alt="oh no!" src={bot.avatar_url} />
@@ -52,7 +47,10 @@ function BotCard({ bot ,HandleAddCard,HandleRemoveBot,botKey}) {
             <div className="ui center aligned segment basic">
               <button
                 className="ui mini red button"
-                onClick={() =>{HandleRemoveBot(bot)}
+                onClick={(event) =>{
+                  event.stopPropagation();
+                  deleteBot(bot);
+                  }
                 }
               >
                 x
